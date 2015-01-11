@@ -6,6 +6,9 @@ import gzip as gz
 from cPickle import load
 
 
+def load_data(filename):
+    return load(gz.open(filename))
+
 def load_mini_mnist(option=None):
     mmnist = load(gz.open('./data/mini_mnist.pkl.gz', 'rb'))
     if option == 'train':
