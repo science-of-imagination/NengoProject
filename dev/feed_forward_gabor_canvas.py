@@ -15,7 +15,7 @@ from data import load_mini_mnist
 import nengo
 
 canvas_size = 28
-ens_size = 2000
+ens_size = 4100
 stimulus = 0
 
 #build encoders
@@ -32,13 +32,22 @@ with nengo.Network(label="Net_1") as Net_1:
                          label="ens")
     out = nengo.Node(size_in=canvas_size**2)
     
+    
+
     nengo.Connection(ipt, ens)
     nengo.Connection(ens, out)
+    nengo.Connection(ens, ens)    
     
     probe = nengo.Probe(ens, attr="decoded_output")
+
+    
     
 sim = nengo.Simulator(Net_1)
+
 sim.run(0.5)
-data = Data('mmnist0', ipts[stimulus], sim.data[probe])
+#Turn off the connection here? Not sure it's possible (or, not sure how without a function)
+sim.run(0.5)
+
+data = Data('mmnist0_4100', ipts[stimulus], sim.data[probe])
 save_data('./model_outputs/feed_forward_gabor_canvas/', data)
 print 'Model ran successfully'
