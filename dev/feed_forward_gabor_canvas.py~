@@ -15,11 +15,11 @@ from data import load_mini_mnist
 import nengo
 
 canvas_size = 28
-ens_size = 4000
+ens_size = 4105
 stimulus = 0
 
 #build encoders
-encs = normalized_random_gabor_encoders(canvas_size, ens_size)
+encs = normalized_random_patch_encoders(canvas_size, ens_size)
 
 #get inputs
 ipts = load_mini_mnist('train')[:5]
@@ -56,6 +56,6 @@ sim = nengo.Simulator(Net_1)
 sim.run(.50)
 
 
-data = Data('mmnist0_synapse_itegrater_' + repr(ens_size), ipts[stimulus], sim.data[probe])
+data = Data('patches_1_' + repr(ens_size), ipts[stimulus], sim.data[probe])
 save_data('./model_outputs/feed_forward_gabor_canvas/', data)
 print 'Model ran successfully'
