@@ -22,13 +22,13 @@ def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     return e * cosed
 
 
-def make_random_gabor(canvas_size):
+def make_random_gabor(canvas_size, sigmarng=[0.05, 0.1]):
     '''Returns a gabor filter with random size, frequency and orientation. The
     returned filter will be placed within the circle inscribed in a square
     canvas of side length canvas_size px. Gabors are more likely to be near the
     center of the canvas than near the edges.
     '''
-    sigma = uniform(0.05, 0.1)
+    sigma = uniform(*sigmarng)
     #Choice of r makes gabors stay within half width of center. 
     #Also, squaring ensures gabors are more frequent near center.
     #NOTE: Look at psych plausibility of above in detail, and make sure the
@@ -48,11 +48,11 @@ def make_random_gabor(canvas_size):
                  y_offset=r*sin(th))
 
 
-def normalized_random_gabor_encoders(canvas_size, array_size):
+def normalized_random_gabor_encoders(canvas_size, array_size, sigmarng=[0.05,0.1]):
     '''Return an array of random gabor filters placed on a square canvas
     of side length canvas_size px.
     '''
-    gabors = [make_random_gabor(canvas_size).flatten()
+    gabors = [make_random_gabor(canvas_size, sigmarng).flatten()
               for i in range(array_size)]
     #normalize gabors and return
     return array([(1/norm(i).flatten())*i for i in gabors])    
