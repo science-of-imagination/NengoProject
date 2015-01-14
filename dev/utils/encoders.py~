@@ -1,8 +1,12 @@
 '''Encoders for SOIL Nengo. Features only gabor filters for now.'''
 
-from numpy import array, linspace, meshgrid, cos, sin, exp, pi
+from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity
 from numpy.linalg import norm
 from random import uniform
+
+def pixel_encoders(canvas_size):
+    return identity(canvas_size**2)
+
 
 def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     '''Returns a single gabor filter.

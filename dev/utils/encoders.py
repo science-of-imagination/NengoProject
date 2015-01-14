@@ -1,8 +1,12 @@
 '''Encoders for SOIL Nengo. Features only gabor filters for now.'''
 
-from numpy import array, linspace, meshgrid, cos, sin, exp, pi
+from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity
 from numpy.linalg import norm
 from random import uniform
+
+def pixel_encoders(canvas_size):
+    return identity(canvas_size**2)
+
 
 def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     '''Returns a single gabor filter.
@@ -28,7 +32,7 @@ def make_random_gabor(canvas_size):
     canvas of side length canvas_size px. Gabors are more likely to be near the
     center of the canvas than near the edges.
     '''
-    sigma = uniform(0.05, 0.1)
+    sigma = uniform(0.2, 0.4)
     #Choice of r makes gabors stay within half width of center. 
     #Also, squaring ensures gabors are more frequent near center.
     #NOTE: Look at psych plausibility of above in detail, and make sure the
