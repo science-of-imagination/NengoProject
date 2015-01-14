@@ -32,7 +32,7 @@ def make_random_gabor(canvas_size):
     canvas of side length canvas_size px. Gabors are more likely to be near the
     center of the canvas than near the edges.
     '''
-    sigma = uniform(0.2, 0.4)
+    sigma = uniform(0.4, 0.8)
     #Choice of r makes gabors stay within half width of center. 
     #Also, squaring ensures gabors are more frequent near center.
     #NOTE: Look at psych plausibility of above in detail, and make sure the
