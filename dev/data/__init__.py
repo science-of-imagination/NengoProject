@@ -4,7 +4,13 @@ This module provides functions for loading modeling data.
 
 import gzip as gz
 from cPickle import load
+import Image
+from numpy import array, ones
 
+def load_img(imgpath, canvas_size=28):
+    img = Image.open(imgpath).resize((canvas_size,canvas_size)).getdata()
+    img.convert('L')
+    return array(img)
 
 def load_data(filename):
     return load(gz.open(filename))
