@@ -1,32 +1,35 @@
 '''Utility to collect data on simulations'''
 
+import os
 import gzip as gz
 from cPickle import dump
 from time import strftime
 
 
+def compose_name(path, time, index, data):
+    return path+'_'.join([time+'%02d' % index, data.label+'.pkl.gz'])
+
+
+def file_name(path, data):
+    time = strftime('%Y%m%d%H%M%S')
+    index = 0
+    while os.path.isfile(compose_name(path, time, index, data)):
+        index += 1
+    return compose_name(path, time, index, data)
+    
+
 def save_data(path, data):
-    filename = path+strftime('%Y%m%d%H%M%S')+data.label+'.pkl.gz'
-    with gz.open(filename, 'wb') as f:
+    if not os.path.exists(path):
+        os.makedirs(path)
+    with gz.open(file_name(path, data), 'wb') as f:
         dump(data, f)
 
 
 class Data:
-
-    def __init__(self, label, stimulus, data):
+    def __init__(self, label, params, stimulus, data, dims):
 
         self.label = label
+        self.params = params
         self.stimulus = stimulus
         self.data = data
-
-
-class Model:
-
-    def __init__(self, model_consturctor):
-
-        self.model, self.inputs, self.probes = model_constructor()
-
-    def run(duration):
-        pass
-
-        
+        self.dims = dims

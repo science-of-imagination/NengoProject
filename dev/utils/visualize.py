@@ -1,10 +1,26 @@
-'''
-Tools for displaying data.
-'''
+'''Tools for displaying data.'''
 
-from matplotlib.pyplot import imshow
+import os
+import Image
 from numpy import reshape
 
-def figure_from_vector(vector, canvas_size):
-    img = reshape(vector, (canvas_size, canvas_size), 'F')        
-    imshow(img.T, cmap='gray')
+
+def img_from_vector(vector, dims):
+    v = vector.reshape(dims).astype('uint8')
+    return Image.fromarray(v, 'L')
+
+
+def mk_imgs(path, data):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    for i in range(len(data.data)):
+        name = path+'%03d.png' % i+1
+        img_from_vector(data.data[i], data.dims).save(name)
+        print 'Saved img %d of %d' % (i+1, len(data.data))
+    avg = sum(data.data)/len(data.data)
+    img_from_vector(avg, data.dims).save(path+'avg.png')
+    print 'Saved average of images.'
+    print 'Done.'
+        
+
+    
