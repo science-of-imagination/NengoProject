@@ -12,7 +12,7 @@ def run(N, img_path, w, h):
     
     img = load_img(img_path, dims)
 
-    encs = 
+    encs = normalized_random_gabor_encoders(N, len(img))
 
     def stim_func(t):
         if t<0.1:
