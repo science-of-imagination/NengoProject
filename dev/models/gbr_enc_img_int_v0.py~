@@ -13,8 +13,9 @@ def run(N, img_path, w, h):
     
     img = load_img(img_path, dims)
 
-    encs = normalized_random_gabor_encoders(N, len(img))
-
+    
+    encs = normalized_random_gabor_encoders(N, w)
+    
     def stim_func(t):
         if t<0.1:
             return img
@@ -33,4 +34,4 @@ def run(N, img_path, w, h):
 
     sim = nengo.Simulator(net)
     sim.run(0.2)
-    return Data(os.path.basename(__file__), (N, img_path), img, sim.data[probe], dims)
+    return Data(os.path.basename(__file__).strip('.py'), (N, img_path), img, sim.data[probe], dims)
