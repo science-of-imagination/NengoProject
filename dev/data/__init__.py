@@ -7,8 +7,8 @@ from cPickle import load
 import Image
 from numpy import array, ones
 
-def load_img(imgpath, canvas_size=28):
-    img = Image.open(imgpath).resize((canvas_size,canvas_size)).getdata()
+def load_img(imgpath, dims):
+    img = Image.open(imgpath).resize(dims).getdata()
     img.convert('L')
     return array(img)
 
