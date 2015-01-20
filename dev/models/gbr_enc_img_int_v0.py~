@@ -33,4 +33,4 @@ def run(N, img_path, w, h):
 
     sim = nengo.Simulator(net)
     sim.run(0.2)
-    return Data(os.path.basename(__file__).strip('.py'), (N, img_path), img, sim.data[probe], dims)
+    return Data(os.path.basename(__file__), (N, img_path), img, sim.data[probe], dims)
