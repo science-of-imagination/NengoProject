@@ -7,6 +7,11 @@ from cPickle import load
 import Image
 from numpy import array, ones
 
+def format_input(imgArray):
+    imgArray = imgArray / 127.5
+    return imgArray - np.ones(len(imgArray)) 
+    
+
 def load_img(imgpath, dims):
     img = Image.open(imgpath).resize(dims).getdata()
     img.convert('L')
