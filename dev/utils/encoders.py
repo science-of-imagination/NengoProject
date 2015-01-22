@@ -37,7 +37,7 @@ def normalized_random_patch_encoders(canvas_size, array_size):
     #normalize patches and return
     return array([(1/norm(i).flatten())*i for i in gabors])    
 
-def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
+def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset, sign):
     '''Returns a single gabor filter.
     '''
     x = linspace(-1, 1, canvas_size)
@@ -52,7 +52,7 @@ def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     yTheta = -X * sinTheta + Y * cosTheta
     e = exp( -(xTheta**2 + yTheta**2 * gamma**2) / (2 * sigma**2) )
     cosed = cos((2 * pi * xTheta / lambd) + psi)
-    return e * cosed
+    return e * cosed * sign
 
 
 def make_random_gabor(canvas_size):
@@ -61,25 +61,26 @@ def make_random_gabor(canvas_size):
     canvas of side length canvas_size px. Gabors are more likely to be near the
     center of the canvas than near the edges.
     '''
-    sigma = uniform(0.05, 0.1)
+    sigma = uniform(0.21, 0.5)
     #Choice of r makes gabors stay within half width of center. 
     #Also, squaring ensures gabors are more frequent near center.
     #NOTE: Look at psych plausibility of above in detail, and make sure the
     # equation has desired effect.
-    r = (uniform(0,1)-sigma)**2    
+    r = uniform(0,1)**2    
     #r = uniform(0,0.8)
     th = uniform(0, 2*pi)
     #NOTE: some of the numerical values below were selected for whatever
     # reasons. (I don't remember why.) Might be good to scrutinize those
     # choices.
     return gabor(canvas_size,
-                 lambd=uniform(0.3, 0.8),
-                 theta=uniform(0, 2*pi),
-                 psi=uniform(0, 2*pi),
+                 lambd=sigma*uniform(0.5, 1.5),
+                 theta=choice([0, pi/2, pi, 3*pi/2]),
+                 psi=choice([0, pi/2]),
                  sigma=sigma,
-                 gamma=uniform(0.7, 1),
+                 gamma=1/1.141,
                  x_offset=r*cos(th),
-                 y_offset=r*sin(th))
+                 y_offset=r*sin(th),
+                 sign=choice([-1,1]))
 
 
 def normalized_random_gabor_encoders(canvas_size, array_size):
