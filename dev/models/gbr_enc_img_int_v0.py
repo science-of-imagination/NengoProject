@@ -12,7 +12,9 @@ def run(N, img_path, w, h):
     h = int(h)
     dims = (w, h)
     
-    img = load_img(img_path, dims)-127.5*ones(w*h)
+    img = load_img(img_path, dims)
+    img = format_output(img)    
+    #img = load_img(img_path, dims)-127.5*ones(w*h)
     #img = load_mini_mnist('train')[0]-0.5*ones(w*h)
     
     encs = normalized_random_gabor_encoders(w, N)

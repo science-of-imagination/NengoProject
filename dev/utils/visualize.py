@@ -23,13 +23,16 @@ def img_from_vector(vector, dims):
     v = vector.reshape(dims).astype('uint8')
     return Image.fromarray(v, 'L')
 
-
+def convert_output(imgArray):
+    imgArray = imgArray * 127.5
+    return numpy.around(numpy.add(imgArray,127.5),decimals=0)
+    
 def mk_imgs(path, data):
     if not os.path.exists(path):
         os.makedirs(path)
     for i in range(len(data.data)):
         name = path+'%03d.png' % (i+1)
-        img_from_vector(data.data[i], data.dims).save(name)
+        img_from_vector(convert_output(data.data[i]), data.dims).save(name)
         print 'Saved img %d of %d' % (i+1, len(data.data))
     avg = sum(data.data)/len(data.data)
     img_from_vector(avg, data.dims).save(path+'avg.png')
