@@ -1,7 +1,8 @@
 import nengo
-from utils.collect import Data
+from utils.collect import Data, format_output
 from data import load_img
 from utils.encoders import normalized_random_gabor_encoders
+from numpy import array
 import os
 
 def run(N, img_path, w, h):
@@ -34,4 +35,7 @@ def run(N, img_path, w, h):
 
     sim = nengo.Simulator(net)
     sim.run(0.2)
-    return Data(os.path.basename(__file__).strip('.py'), (N, img_path), img, sim.data[probe], dims)
+    return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
+                (N, img_path), img,
+                array([format_output(opt) for opt in sim.data[probe]]),
+                dims)

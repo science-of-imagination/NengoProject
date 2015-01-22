@@ -17,8 +17,10 @@ def load_img(imgpath, dims):
     img.convert('L')
     return array(img)
 
+
 def load_data(filename):
     return load(gz.open(filename))
+
 
 def load_mini_mnist(option=None):
     mmnist = load(gz.open('./data/mini_mnist.pkl.gz', 'rb'))

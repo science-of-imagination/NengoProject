@@ -3,7 +3,8 @@ from utils.visualize import mk_imgs, mk_plt_imgs
 from data import load_data
 
 queue = askopenfilenames()
-if isinstance(queue, str):
-    queue = queue.split()
+print queue, queue.__class__
+if isinstance(queue, unicode):
+    queue = queue.encode('ascii', 'replace').split()
 for path in queue:
-    mk_plt_imgs(path.strip('.pkl.gz')+'/', load_data(path))
+    mk_imgs(path.strip('.pkl.gz')+'/', load_data(path))

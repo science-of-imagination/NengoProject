@@ -18,8 +18,6 @@ def mk_plt_imgs(path,data):
         savefig(name)
         clf()
 
-    
-
          
 def img_from_vector(vector, dims):
     v = vector.reshape(dims).astype('uint8')

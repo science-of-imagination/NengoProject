@@ -29,13 +29,19 @@ def param_file(args):
     else:
         return './models/'+args[1]+'.params'
 
+
 def run_model(model_name, params):
     exec 'from models.%s import run' % model_name
-    return [run(*args) for args in params]
+    opts = []
+    runs = len(params)
+    for args in params:
+        print 'Running model 1 of %d.' % runs
+        opts.append(run(*args))
+    return opts
 
 
 def run():
-    opts, args = getopt.getopt(sys.argv[1:],"l")    
+    opts, args = getopt.getopt(sys.argv[1:],"l")
     for data in run_model(args[0],
                           load_params(param_file(args),
                                       param_opt(opts))):

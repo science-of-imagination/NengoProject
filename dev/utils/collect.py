@@ -4,7 +4,13 @@ import os
 import gzip as gz
 from cPickle import dump
 from time import strftime
+from numpy import around, ones
 
+
+def format_output(v):
+    img = around(127.5*(v+ones(len(v))),0)
+    return img
+    
 
 def compose_name(path, time, index, data):
     return path+'_'.join([time+'%02d' % index, data.label+'.pkl.gz'])
