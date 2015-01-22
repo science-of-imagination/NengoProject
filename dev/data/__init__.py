@@ -8,8 +8,9 @@ import Image
 from numpy import array, ones
 
 def format_input(imgArray):
-    imgArray = imgArray / 127.5
-    return imgArray - np.ones(len(imgArray)) 
+    imgArray = numpy.subtract(imgArray,127.5)
+    return imgArray / 127.5
+
     
 
 def load_img(imgpath, dims):
