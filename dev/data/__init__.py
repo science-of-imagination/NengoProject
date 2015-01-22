@@ -9,7 +9,7 @@ from numpy import array, ones
 
 def format_input(imgArray):
     imgArray = imgArray / 127.5
-    return imgArray - np.ones(len(imgArray)) 
+    return imgArray - ones(len(imgArray)) 
     
 
 def load_img(imgpath, dims):

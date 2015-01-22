@@ -3,7 +3,6 @@ from utils.visualize import mk_imgs, mk_plt_imgs
 from data import load_data
 
 queue = askopenfilenames()
-print queue, queue.__class__
 if isinstance(queue, unicode):
     queue = queue.encode('ascii', 'replace').split()
 for path in queue:
