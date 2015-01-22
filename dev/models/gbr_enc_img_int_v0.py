@@ -34,7 +34,7 @@ def run(N, img_path, w, h):
         probe = nengo.Probe(ens, attr='decoded_output', synapse=0.1)
 
     sim = nengo.Simulator(net)
-    sim.run(0.1)
+    sim.run(0.2)
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
                 (N, img_path), img,
                 array([format_output2(opt) for opt in sim.data[probe]]),
