@@ -3,7 +3,7 @@
 import os
 import Image
 from numpy import reshape
-
+import numpy
 from matplotlib.pyplot import imshow, savefig, clf
 
 

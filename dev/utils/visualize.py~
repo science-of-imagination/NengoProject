@@ -25,7 +25,7 @@ def img_from_vector(vector, dims):
 
 def convert_output(imgArray):
     imgArray = imgArray * 127.5
-    return numpy.add(imgArray,127.5)
+    return numpy.around(numpy.add(imgArray,127.5),decimals=0)
     
 def mk_imgs(path, data):
     if not os.path.exists(path):
