@@ -18,7 +18,7 @@ def run(N, img_path, w, h):
     dims = (w, h)
     
     img = load_img(img_path, dims)
-    img = format_input(img)
+    #img = format_input(img)
     
 
 
@@ -49,7 +49,7 @@ def run(N, img_path, w, h):
     sim.run(0.2)
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
                 (N, img_path), img,
-                array(opt for opt in sim.data[probe]),
+                array([opt for opt in sim.data[probe]]),
                 dims)
     #return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
     #            (N, img_path), img,
