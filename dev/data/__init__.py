@@ -6,6 +6,7 @@ import gzip as gz
 from cPickle import load
 import Image
 from numpy import array, ones
+import numpy
 
 def format_input(imgArray):
     imgArray = numpy.subtract(imgArray,127.5)

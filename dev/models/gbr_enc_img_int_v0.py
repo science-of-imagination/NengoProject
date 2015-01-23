@@ -1,6 +1,6 @@
 import nengo
 from utils.collect import Data
-from data import load_img, format
+from data import load_img, format_input
 from utils.encoders import normalized_random_gabor_encoders
 import os
 

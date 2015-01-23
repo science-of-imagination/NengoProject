@@ -1,6 +1,6 @@
 import nengo
 from utils.collect import Data
-from data import load_img
+from data import load_img, format
 from utils.encoders import normalized_random_gabor_encoders
 import os
 
@@ -12,6 +12,8 @@ def run(N, img_path, w, h):
     dims = (w, h)
     
     img = load_img(img_path, dims)
+    img = format_input(img)
+    
 
     
     encs = normalized_random_gabor_encoders(w, N)
