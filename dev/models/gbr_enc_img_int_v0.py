@@ -1,11 +1,11 @@
 import nengo
-<<<<<<< HEAD
+
 from utils.collect import Data
-from data import load_img, format
-=======
+from data import load_img, format_input
+
 from utils.collect import Data, format_output2, format_output
 from data import load_img, format_input, load_mini_mnist
->>>>>>> gabor_update
+
 from utils.encoders import normalized_random_gabor_encoders
 from numpy import array, ones
 import os
@@ -18,15 +18,14 @@ def run(N, img_path, w, h):
     dims = (w, h)
     
     img = load_img(img_path, dims)
-<<<<<<< HEAD
     img = format_input(img)
     
 
-=======
-    img = format_output(img)    
+
+    #img = format_output(img)    
     #img = load_img(img_path, dims)-127.5*ones(w*h)
     #img = load_mini_mnist('train')[0]-0.5*ones(w*h)
->>>>>>> gabor_update
+
     
     encs = normalized_random_gabor_encoders(w, N)
     
@@ -50,5 +49,9 @@ def run(N, img_path, w, h):
     sim.run(0.2)
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
                 (N, img_path), img,
-                array([format_output2(opt) for opt in sim.data[probe]]),
+                array(opt for opt in sim.data[probe]),
                 dims)
+    #return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
+    #            (N, img_path), img,
+    #            array([format_output(opt,dims) for opt in sim.data[probe]]),
+    #            dims)

@@ -4,11 +4,11 @@ import os
 import gzip as gz
 from cPickle import dump
 from time import strftime
-from numpy import around, ones, amax, amin
+from numpy import around, ones, amax, amin, sqrt
 
 
-def format_output(v):
-    img = around(127.5*(v+ones(len(v))),0)
+def format_output(v, dims):
+    img = around(127.5*sqrt(dims[0]*dims[1])*v+127.5*ones(len(v)),0)
     return img
 
 

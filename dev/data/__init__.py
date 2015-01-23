@@ -5,7 +5,10 @@ This module provides functions for loading modeling data.
 import gzip as gz
 from cPickle import load
 import Image
+
+import numpy
 from numpy import array, ones
+
 
 def format_input(imgArray):
     imgArray = numpy.subtract(imgArray,127.5)

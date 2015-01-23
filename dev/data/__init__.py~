@@ -8,14 +8,9 @@ import Image
 from numpy import array, ones
 
 def format_input(imgArray):
-<<<<<<< HEAD
     imgArray = numpy.subtract(imgArray,127.5)
     return imgArray / 127.5
 
-=======
-    imgArray = imgArray / 127.5
-    return imgArray - ones(len(imgArray)) 
->>>>>>> gabor_update
     
 
 def load_img(imgpath, dims):
