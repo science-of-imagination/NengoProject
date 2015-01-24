@@ -45,7 +45,9 @@ def run():
     for data in run_model(args[0],
                           load_params(param_file(args),
                                       param_opt(opts))):
+        print 'Saving data.'
         save_data('/'.join([out_path, data.label+'/']), data)
+    print 'Model(s) ran successfully.'
     sys.exit()
 
 

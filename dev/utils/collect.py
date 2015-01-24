@@ -5,16 +5,6 @@ import gzip as gz
 from cPickle import dump
 from time import strftime
 from numpy import around, ones, amax, amin, sqrt
-
-
-def format_output(v, dims):
-    img = around(127.5*sqrt(dims[0]*dims[1])*v+127.5*ones(len(v)),0)
-    return img
-
-
-def format_output2(v):
-    img = around(127.5*((v/float(amax(v)-amin(v)))+ones(len(v))),0)
-    return img
     
 
 def compose_name(path, time, index, data):

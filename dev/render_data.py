@@ -6,4 +6,6 @@ queue = askopenfilenames()
 if isinstance(queue, unicode):
     queue = queue.encode('ascii', 'replace').split()
 for path in queue:
+    data = load_data(path)
+    #mk_imgs(path.strip('.pkl.gz')+'/', load_data(path))
     mk_plt_imgs(path.strip('.pkl.gz')+'/', load_data(path))
