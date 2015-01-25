@@ -1,0 +1,16 @@
+import os
+os.chdir('C:\\Projects\\NengoProject-master\\dev')
+from utils.encoders import normalized_random_gabor_encoders as norm
+import numpy as np
+from data import load_mini_mnist
+from PIL import Image
+##import matplotlib.pyplot as plt
+n=norm(28, 2000)
+i=load_mini_mnist('train')
+o=np.dot(n, i[0])
+o2=np.dot(o,n)
+o3=np.around(((o2/np.linalg.norm(o2))+1)*255)
+img=Image.fromarray((np.ones((28,28),dtype=np.uint8)*255)-o3.reshape(28,28).astype(np.uint8), 'L')
+img.show()
+##plt.imshow(o3.reshape(28,28), cmap='gray')
+##plt.show()
