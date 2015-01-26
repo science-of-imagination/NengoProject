@@ -1,1 +1,1 @@
-out_path='C:/Users/canme_000/Desktop/NengoProj/'
+out_path='/home/sterling/CanNengoOutput'

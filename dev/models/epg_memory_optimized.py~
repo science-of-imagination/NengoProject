@@ -1,7 +1,7 @@
 import nengo
 from utils.collect import Data
 from data import load_img, load_mini_mnist
-from utils.encoders_hard import normalized_random_gabor_encoders
+from utils.encoders import normalized_random_gabor_encoders
 from numpy import array, zeros, tile, sqrt
 from numpy.linalg import norm
 import os
