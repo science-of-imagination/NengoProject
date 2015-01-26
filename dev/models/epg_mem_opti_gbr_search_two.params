@@ -1,4 +1,4 @@
 20 10 ./data/lena_512x512.png 28 28
 500 10 ./data/lena_512x512.png 28 28
 2000 10 ./data/lena_512x512.png 28 28
-10000 10 ./data/lena_512x512.png 100 100
+50000 10 ./data/lena_512x512.png 100 100
