@@ -1,0 +1,2 @@
+gbr 10 ./data/lena_512x512.png 28 28
+pix 10 ./data/lena_512x512.png 28 28
