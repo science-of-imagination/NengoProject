@@ -49,7 +49,7 @@ def sub_run((N, img, dims)):
         sim = nengo.Simulator(net)
         sim.run(0.2)
     except RuntimeError as e:
-            sub_run((N, img, dims))
+        return sub_run((N, img, dims))
 
     return array(sim.data[probe])
 
