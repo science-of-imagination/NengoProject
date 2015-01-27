@@ -2,6 +2,7 @@
 
 from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity, log
 from numpy.linalg import norm
+from numpy.random import lognormal
 from random import uniform, choice
 
 def pixel_encoders(canvas_size):
@@ -10,6 +11,7 @@ def pixel_encoders(canvas_size):
 def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     '''Returns a single gabor filter.
     '''
+    print(lambd)
     x = linspace(-1, 1, canvas_size)
     y = linspace(-1, 1, canvas_size)
     X, Y = meshgrid(x, y)
@@ -23,7 +25,6 @@ def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     e = exp( -(xTheta**2 + yTheta**2 * gamma**2) / (2 * sigma**2) )
     cosed = cos((2 * pi * xTheta / lambd) + psi)
     return e * cosed
-tha
 
 def make_random_gabor(canvas_size,thSTR,rSTR,lambdSTR,thetaSTR,psiSTR,sigmaSTR,gammaSTR,x_offSTR,y_offSTR):
     '''Returns a gabor filter with random size, frequency and orientation. The

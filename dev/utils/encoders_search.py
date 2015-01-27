@@ -2,6 +2,7 @@
 
 from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity, log
 from numpy.linalg import norm
+from numpy.random import lognormal
 from random import uniform, choice
 
 def pixel_encoders(canvas_size):
@@ -10,6 +11,7 @@ def pixel_encoders(canvas_size):
 def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     '''Returns a single gabor filter.
     '''
+   
     x = linspace(-1, 1, canvas_size)
     y = linspace(-1, 1, canvas_size)
     X, Y = meshgrid(x, y)
