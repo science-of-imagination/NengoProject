@@ -12,10 +12,7 @@ from numpy.linalg import norm
 def load_img(imgpath, dims):
     img = Image.open(imgpath).resize(dims).getdata()
     img.convert('L')
-    img = array(img)
-    
-    img = subtract(img,127.5)
-    img = img.flatten()
+    img = subtract(array(img),127.5)
     return img / norm(img)
     
    # return (array(img)- 127.5*ones(dims[0]*dims[1])) 
