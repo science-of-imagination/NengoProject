@@ -5,7 +5,7 @@ from utils.encoders import mk_bgbrs, normalized_random_gabor_encoders, mk_gbr_ev
 from numpy import array, ones, sqrt, subtract, dot, where, zeros
 from numpy.linalg import norm, svd
 import os
-from sparsesvd import sparsesvd
+from scipy.sparse.linalg import svds
 from scipy.sparse import csc_matrix
 
 def run(N, n_eval_pts, img_path, w, h, t=0.2):
@@ -24,7 +24,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
 
     print 'Initializing SVD compression.'
-    U, S, V = sparsesvd(csc_matrix(encs.T), len(img))
+    U, S, V = svds(encs.T, N)
     print S.shape
     import pylab
     pylab.plot(S)
