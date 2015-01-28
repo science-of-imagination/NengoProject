@@ -20,8 +20,8 @@ def run(N, n_eval_pts, img_path, w, h):
                   mk_bgbrs(N/2, dims, dims[0]*4)])
 
     print 'Initializing eval points.'
-    eval_points = normalized_random_gabor_encoders(w,
-                                                   n_eval_pts)
+    eval_points = array([j.flatten()/norm(j) for j in
+                  mk_bgbrs(n_eval_pts/2, dims, dims[0]*4)])
 
     print 'Building model.'
     with nengo.Network() as net:
