@@ -1,8 +1,8 @@
 import nengo
-from utils.collect import Data
+from utils.collect import Data, rmse
 from data import load_img, load_mini_mnist
 from utils.encoders import mk_bgbrs, normalized_random_gabor_encoders
-from numpy import array, ones, sqrt, amax, amin, subtract, divide
+from numpy import array, ones, sqrt, amax, amin, subtract, divide, dot
 from numpy.linalg import norm
 import os
 
@@ -49,14 +49,21 @@ def run(N, n_eval_pts, img_path, w, h):
         
     print 'Running simulation.'
     sim = nengo.Simulator(net)
-    rmse = norm(sim.data[conn].solver_info['rmses'])
-    print 'Connection RMS: '+str(rmse)
     sim.run(0.2)
+
+    print 'Collecting connection error.'
+    conn_rmse = norm(sim.data[conn].solver_info['rmses'])
+    print 'Collecting connection weights.'
+    weights = dot(encs, sim.data[conn].decoders)
+    print 'Collecting rmses per sample.'
+    rmses = array([rmse(img, j) for j in sim.data[probe]])
 
     print 'Collecting data.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
                 (N, eval_points, img_path, w, h),
                 img,
-                rmse,
+                conn_rmse,
                 array([opt for opt in sim.data[probe]]),
+                rmses,
+                weights,
                 dims)

@@ -4,7 +4,7 @@ import os
 import gzip as gz
 from cPickle import dump
 from time import strftime
-from numpy import around, ones, amax, amin, sqrt
+from numpy import mean, dot, subtract, sqrt
     
 
 def compose_name(path, time, index, data):
@@ -26,12 +26,16 @@ def save_data(path, data):
         dump(data, f)
 
 
+def rmse(tgt, opt):
+    return sqrt(mean(dot(subtract(tgt, opt), subtract(tgt, opt))))
+
+
 class Data:
-    def __init__(self, label, params, stimulus, rmses, data, dims):
+    def __init__(self, label, params, stimulus, conn_rmses, data, rmses, weights, dims):
 
         self.label = label
         self.params = params
         self.stimulus = stimulus
-        self.rmses = rmses
+        self.conn_rmses = conn_rmses
         self.data = data
         self.dims = dims
