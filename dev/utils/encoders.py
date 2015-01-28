@@ -146,3 +146,18 @@ def mk_bgbrs(n_pairs,
     return gbrs
 
 
+def gbr_eval_pt(width):
+    #Does not come in quadrature pairs.
+    return gabor(width,
+                 lambd=uniform(2.0/width, 1),
+                 theta=uniform(0, 2*pi),
+                 psi=uniform(0, 2*pi),
+                 sigma=uniform(0,1),
+                 gamma=uniform(0,1),
+                 x_offset=uniform(0,1),
+                 y_offset=uniform(0,1))
+
+
+def mk_gbr_eval_pts(N, width):
+    raw_eval_pts = [gbr_eval_pt(width) for i in range(N)]
+    return array([j.flatten()/norm(j.flatten()) for j in raw_eval_pts])

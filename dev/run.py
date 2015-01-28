@@ -34,9 +34,9 @@ def run_model(model_name, params):
     exec 'from models.%s import run' % model_name
     opts = []
     runs = len(params)
-    for args in params:
-        print 'Running model 1 of %d.' % runs
-        opts.append(run(*args))
+    for i in range(len(params)):
+        print 'Running model %d of %d.' % (i+1, runs)
+        opts.append(run(*params[i]))
     return opts
 
 

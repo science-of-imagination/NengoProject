@@ -2,10 +2,11 @@ import nengo
 from utils.collect import Data, rmse
 from data import load_img, load_mini_mnist
 from utils.encoders import mk_bgbrs, normalized_random_gabor_encoders, mk_gbr_eval_pts
-from numpy import array, ones, sqrt, amax, amin, subtract, divide, dot
-from numpy.linalg import norm
+from numpy import array, ones, sqrt, subtract, dot, where
+from numpy.linalg import norm, svd
 import os
-
+from sparsesvd import sparsesvd
+from scipy.sparse import csc_matrix
 
 def run(N, n_eval_pts, img_path, w, h, t=0.2):
 
@@ -16,28 +17,43 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array([j.flatten()/norm(j) for j in
+    encs = array([j.flatten()/norm(j.flatten()) for j in
                   mk_bgbrs(N/2, dims, dims[0]*4)])
 
     print 'Initializing eval points.'
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
+
+    print 'Initializing SVD compression.'
+    U, S, V = sparsesvd(csc_matrix(encs.T), N)
+    #import pylab
+    #pylab.plot(S)
+    #pylab.show()
+    print where(S<S[0]*0.01)
+    D = where(S<S[0]*0.01)[0][0]
+    basis = U[:,:D]
+    
+    def compress(original):
+        return dot(original, basis)
+
+    def uncompress(compressed):
+        return dot(basis, compressed.T).T
     
     print 'Building model.'
     with nengo.Network() as net:
 
         def stim_func(t):
             if t<0.1:
-                return img
+                return compress(img)
             else:
-                return [0]*len(img)
+                return zeros(D)
 
         neuron_type = nengo.LIFRate() 
 
         ipt = nengo.Node(stim_func)
         ens = nengo.Ensemble(N,
-                             dimensions=len(img),
-                             encoders=encs,
-                             eval_points=eval_points,
+                             dimensions=D,
+                             encoders=compress(encs),
+                             eval_points=compress(eval_points),
                              neuron_type=neuron_type)
 
         nengo.Connection(ipt, ens, synapse=None, transform=1)
@@ -62,7 +78,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
                 (N, eval_points, img_path, w, h),
                 img,
                 conn_rmse,
-                array([opt for opt in sim.data[probe]]),
+                uncompress(array([opt for opt in sim.data[probe]])),
                 rmses,
                 weights,
                 dims)
