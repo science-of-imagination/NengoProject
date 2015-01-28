@@ -27,10 +27,11 @@ def save_data(path, data):
 
 
 class Data:
-    def __init__(self, label, params, stimulus, data, dims):
+    def __init__(self, label, params, stimulus, rmses, data, dims):
 
         self.label = label
         self.params = params
         self.stimulus = stimulus
+        self.rmses = rmses
         self.data = data
         self.dims = dims
