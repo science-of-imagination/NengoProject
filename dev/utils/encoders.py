@@ -1,6 +1,6 @@
 '''Encoders for SOIL Nengo. Features only gabor filters for now.'''
 
-from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity, log
+from numpy import array, zeros, tile, sqrt, cos, sin, log, pi, exp, linspace, meshgrid
 from numpy.linalg import norm
 from random import uniform, choice
 
@@ -45,16 +45,14 @@ def bio_gbr(dims, x_off, y_off, theta, f, phi, psi=0):
 
     psi: phase of the gabor.'''
 
-    #Change of basis, centered on center of gbr, rotated to align with the
-    # direction of wave propagation
-    X, Y = rotate_mesh(theta, mk_mesh(dims, x_off, y_off))
-
-    #scale f to have correct units
-    f = 2*f
-
     #Compute kappa, sigma
     kappa = sqrt(2*log(2))*(2.0**phi+1)/(2.0**phi-1)
     sigma = kappa/(2*pi*f)
+    f = 2*f
+    
+    #Change of basis, centered on center of gbr, rotated to align with the
+    # direction of wave propagation
+    X, Y = rotate_mesh(theta, mk_mesh(dims, x_off, y_off))
 
     #Compute parts of the gabor
     envelope = (sqrt(2*pi)/sigma)*exp(-(pi/(2*sigma))*(4*(X**2) + Y**2))
@@ -74,16 +72,16 @@ def mk_bgbrs(n_pairs,
              F_max,
              octaves=5,
              N=3,
-             x_off=lambda:uniform(-1,1),
+             x_off=lambda:uniform(-0.5,0.5),
              y_off=lambda:uniform(-1,1),
-             theta=lambda:choice([pi*k/20.0 for k in range(20)]),
+             theta=lambda:choice([2*pi*i/20 for i in range(20)]),
              phi=lambda:1.5,
              psi=lambda:uniform(0,2*pi)):
 
     n_steps = octaves*N
     Fs = []
-    for i in range(n_steps):
-        Fs.append((i+1)*F_max/float(N))
+    for i in range(octaves*N):
+        Fs.append((2**(-i/float(N)))*F_max)
 
     f_ch = lambda:choice(Fs)
 
@@ -93,11 +91,6 @@ def mk_bgbrs(n_pairs,
         gbrs.append(nxt[0])
         gbrs.append(nxt[1])
     return gbrs
-
-
-
-
-
 
 
 
