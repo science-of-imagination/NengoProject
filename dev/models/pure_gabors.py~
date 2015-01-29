@@ -17,7 +17,7 @@ def run(N, img_path, w, h):
                               
     print 'Initializing encoders.'
     encs = array([j.flatten()/norm(j) for j in
-                  mk_bgbrs(N/2, dims, dims[0]*6)])
+                  mk_bgbrs(N/2, dims, dims[0]**6)])
 
     tsfmd = dot(encs.T, dot(encs, img)) 
     tsfmd = tsfmd/norm(tsfmd)    
