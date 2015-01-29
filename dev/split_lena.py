@@ -38,11 +38,14 @@ for i in range(len(patches)):
 #        if j==len(patches[i])-1:
 #            print i,j,patches[i][j]
 
-for n in range(len(y)):
-    plt.figure(n)
-    plt.imshow(y[n],cmap='gray')
+#for n in range(len(y)):
+#    plt.figure(n)
+#    plt.imshow(y[n],cmap='gray')
 
-plt.show()
+#plt.show()
+
+def get_img_array():
+    return y
 
 
 
