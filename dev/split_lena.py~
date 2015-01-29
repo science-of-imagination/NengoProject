@@ -6,8 +6,8 @@ import numpy as np
 
 lena = scipy.misc.lena()
 mat = lena#np.arange(100.0).reshape(10, 10)
-patch_w = 74
-patch_h = 74
+patch_w = 37
+patch_h = 37
 def patchify(img, patch_shape):
     img = np.ascontiguousarray(img)  # won't make a copy if not needed
     X, Y = img.shape
@@ -33,16 +33,41 @@ print patches.shape
 y = []
 for i in range(len(patches)):
     for j in range(len(patches[i])):
-        if not(i%69) and not(j%69):
+        if not(i%32) and not(j%32):
             y.append(patches[i][j])
 #        if j==len(patches[i])-1:
 #            print i,j,patches[i][j]
 
-for n in range(len(y)):
-    plt.figure(n)
-    plt.imshow(y[n],cmap='gray')
+y = np.array(y)
 
+
+def cut_left(a_y,n_columns):
+    for i in range(n_columns):
+        a_y = np.delete(a_y,0,1)
+    return a_y
+
+def cut_right(a_y,n_columns):
+    for i in range(n_columns):
+        a_y = np.delete(a_y,a_y.shape[1]-1,1)
+    return a_y
+
+mat = np.concatenate((cut_right(y[0],5),cut_left(y[1],5)),axis=0)
+    
+for i in range(2,13):
+    
+    mat = np.concatenate((cut_right(mat,5),cut_left(y[i],5)),axis=0)
+#print mat.shape
+    
+plt.imshow(mat.T,cmap='gray')
 plt.show()
+#for n in range(len(y)):
+#    plt.figure(n)
+#    plt.imshow(y[n],cmap='gray')
+
+#plt.show()
+
+def get_img_array():
+    return y
 
 
 

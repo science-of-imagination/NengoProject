@@ -38,6 +38,4 @@ class Data:
         self.stimulus = stimulus
         self.conn_rmses = conn_rmses
         self.data = data
-        self.rmses = rmses
-        self.weights = weights
         self.dims = dims

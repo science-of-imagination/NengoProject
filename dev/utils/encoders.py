@@ -3,9 +3,12 @@
 from numpy import array, linspace, meshgrid, cos, sin, exp, pi, identity, log
 from numpy.linalg import norm
 from random import uniform, choice
+import warnings
+
 
 def pixel_encoders(canvas_size):
     return identity(canvas_size**2)
+
 
 def gabor(canvas_size, lambd, theta, psi, sigma, gamma, x_offset, y_offset):
     '''Returns a single gabor filter.
@@ -139,10 +142,20 @@ def mk_bgbrs(n_pairs,
     f_ch = lambda:choice(Fs)
 
     gbrs = []
-    for i in range(n_pairs):
-        nxt = bio_gbr(dims, x_off(),  y_off(), theta(), f_ch(), phi(), psi())
-        gbrs.append(nxt[0])
-        gbrs.append(nxt[1])
+    rng = range(n_pairs)
+    for i in rng:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error')
+            try:
+                nxt = bio_gbr(dims, x_off(),  y_off(), theta(), f_ch(), phi(), psi())
+                #normalize and flatten
+                g1, g2 = nxt[0].flatten(), nxt[1].flatten()
+                g1, g2 = g1/norm(g1), g2/norm(g2)            
+                gbrs.append(g1)
+                gbrs.append(g2)
+            except RuntimeWarning:
+                rng.append(rng[-1]+1)
+                print 'Warning Occured: (1)'
     return gbrs
 
 
@@ -159,5 +172,16 @@ def gbr_eval_pt(width):
 
 
 def mk_gbr_eval_pts(N, width):
-    raw_eval_pts = [gbr_eval_pt(width) for i in range(N)]
-    return array([j.flatten()/norm(j.flatten()) for j in raw_eval_pts])
+    eval_pts = []
+    rng =  range(N)
+    for i in rng:
+        with warnings.catch_warnings():
+            warnings.simplefilter('error')
+            try:
+                j = gbr_eval_pt(width).flatten()
+                j = j/norm(j)
+                eval_pts.append(j)
+            except RuntimeWarning:
+                rng.append(rng[-1]+1)
+                print 'Warning Occured: (2)'
+    return eval_pts

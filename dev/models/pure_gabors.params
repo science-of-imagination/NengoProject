@@ -1,5 +1,24 @@
-40000 ./data/lena_512x512.png 28 28
-40000 ./data/lena_512x512.png 39 39
-40000 ./data/lena_512x512.png 56 56
-40000 ./data/lena_512x512.png 77 77
-40000 ./data/lena_512x512.png 128 128
+1000 500 ./data/lena_512x512.png 28 28
+5000 500 ./data/lena_512x512.png 28 28
+9000 500 ./data/lena_512x512.png 28 28
+13000 500 ./data/lena_512x512.png 28 28
+17000 500 ./data/lena_512x512.png 28 28
+21000 500 ./data/lena_512x512.png 28 28
+1000 500 ./data/lena_512x512.png 39 39
+5000 500 ./data/lena_512x512.png 39 39
+9000 500 ./data/lena_512x512.png 39 39
+13000 500 ./data/lena_512x512.png 39 39
+17000 500 ./data/lena_512x512.png 39 39
+21000 500 ./data/lena_512x512.png 39 39
+1000 500 ./data/lena_512x512.png 56 56
+5000 500 ./data/lena_512x512.png 56 56
+9000 500 ./data/lena_512x512.png 56 56
+13000 500 ./data/lena_512x512.png 56 56
+17000 500 ./data/lena_512x512.png 56 56
+21000 500 ./data/lena_512x512.png 56 56
+1000 500 ./data/lena_512x512.png 78 78
+5000 500 ./data/lena_512x512.png 78 78
+9000 500 ./data/lena_512x512.png 78 78
+13000 500 ./data/lena_512x512.png 78 78
+17000 500 ./data/lena_512x512.png 78 78
+21000 500 ./data/lena_512x512.png 78 78 
