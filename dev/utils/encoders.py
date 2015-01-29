@@ -131,7 +131,7 @@ def mk_bgbrs(n_pairs,
              x_off=lambda:uniform(-0.5,0.5),
              y_off=lambda:uniform(-1,1),
              theta=lambda:choice([2*pi*i/20 for i in range(20)]),
-             phi=lambda:1.5,
+             phi=1.5,
              psi=lambda:uniform(0,2*pi)):
 
     n_steps = octaves*N
@@ -139,7 +139,17 @@ def mk_bgbrs(n_pairs,
     for i in range(octaves*N):
         Fs.append((2**(-i/float(N)))*F_max)
 
-    f_ch = lambda:choice(Fs)
+    #determine sampling weights
+    k= sqrt(2.0*log(2))*(2**phi+1)/(2**phi-1)
+    alpha = k/(2*pi)
+    p=[]
+    for i in range(octaves*N):
+        p.append(1/(alpha*2**(2*(i/float(N))+4)))
+    proportions = array(p)/norm(array(p))
+
+
+    #f_ch = lambda:choice(Fs) #original coice function
+    f_ch = lambda:Fs[weighted_choice(proportions)]
 
     gbrs = []
     rng = range(n_pairs)
@@ -147,7 +157,7 @@ def mk_bgbrs(n_pairs,
         with warnings.catch_warnings():
             warnings.simplefilter('error')
             try:
-                nxt = bio_gbr(dims, x_off(),  y_off(), theta(), f_ch(), phi(), psi())
+                nxt = bio_gbr(dims, x_off(),  y_off(), theta(), f_ch(), phi, psi())
                 #normalize and flatten
                 g1, g2 = nxt[0].flatten(), nxt[1].flatten()
                 g1, g2 = g1/norm(g1), g2/norm(g2)            
@@ -185,3 +195,18 @@ def mk_gbr_eval_pts(N, width):
                 rng.append(rng[-1]+1)
                 print 'Warning Occured: (2)'
     return eval_pts
+
+import random
+
+def weighted_choice(weights):
+    totals = []
+    running_total = 0
+
+    for w in weights:
+        running_total += w
+        totals.append(running_total)
+
+    rnd = random.random() * running_total
+    for i, total in enumerate(totals):
+        if rnd < total:
+            return i

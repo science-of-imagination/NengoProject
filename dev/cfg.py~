@@ -1,1 +1,1 @@
-out_path='/home/sterling/Jan28Output/SVD'
+out_path='/home/sterling/Jan28Output/Purity'
