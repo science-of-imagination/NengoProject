@@ -17,7 +17,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, dims[0]/sqrt(16)))
+    encs = array(mk_bgbrs(N/2, dims, 4))
 
     print 'Initializing eval points.'
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
@@ -25,17 +25,15 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     print 'Initializing SVD compression.'
     U, S, V = svds(encs.T, len(img)-1)
     S=flipud(S)
-    import pylab
-    pylab.plot(S)
-    pylab.show()
-    print where(S<S[0]*0.01)
+    #import pylab
+    #pylab.plot(S)
+    #pylab.show()
+    #print where(S<S[0]*0.01)
     D = where(S<S[0]*0.01)[0][0]
     print D
     basis = array(U[:,:D])
     
     def compress(original):
-        print original.shape
-        print basis.shape
         return dot(original, basis)
 
     def uncompress(compressed):
@@ -82,7 +80,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     #print 'Recording connection weights.'
     #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
-    rmses = array([rmse(comp_img, j) for j in sim.data[probe]])
+    rmses = array([rmse(img, uncompress(j)) for j in sim.data[probe]])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),

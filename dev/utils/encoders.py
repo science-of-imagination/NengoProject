@@ -104,7 +104,8 @@ def bio_gbr(dims, x_off, y_off, theta, f, phi, psi=0):
     #Compute kappa, sigma
     kappa = sqrt(2*log(2))*(2.0**phi+1)/(2.0**phi-1)
     sigma = kappa/(2*pi*f)
-    f = 2*f
+    #The linspace is (-1,1)x(-1,1), want f=1 to be 1 cycle per width
+    f = f/float(2)
     
     #Change of basis, centered on center of gbr, rotated to align with the
     # direction of wave propagation

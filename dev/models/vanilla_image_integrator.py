@@ -13,10 +13,12 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     dims = (w, h)
 
     print 'Loading image.'
-    img = load_img(img_path, dims)
+    #img = load_img(img_path, dims)
+    img = subtract(load_mini_mnist('train')[0], 1)
+    img = img/norm(img)
                               
     print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, dims[0]/float(8)))
+    encs = array(mk_bgbrs(N/2, dims, 4))
 
     print 'Initializing eval points.'
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
@@ -55,6 +57,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
     rmses = array([rmse(img, j) for j in sim.data[probe]])
+    print 'Error on the 100th frame: ' + str(rmses[98])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),

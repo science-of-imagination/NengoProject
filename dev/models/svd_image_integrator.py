@@ -17,37 +17,41 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array([j.flatten()/norm(j.flatten()) for j in
-                  mk_bgbrs(N/2, dims, dims[0]*4)])
+    encs = array(mk_bgbrs(N/2, dims, 4))
 
     print 'Initializing eval points.'
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
 
     print 'Initializing SVD compression.'
     U, S, V = sparsesvd(csc_matrix(encs.T), len(img))
-    print S.shape
-    import pylab
-    pylab.plot(S)
-    pylab.show()
+    #import pylab
+    #pylab.plot(S)
+    #pylab.show()
     #print where(S<S[0]*0.01)
     D = where(S<S[0]*0.01)[0][0]
     print D
-    basis = U[:,:D]
+    basis = array(U[:,:D])
     
     def compress(original):
-        print original.shape
-        print basis.shape
         return dot(original, basis)
 
     def uncompress(compressed):
         return dot(basis, compressed.T).T
+
+    print 'Compressing input data.'
+    comp_img = compress(img)
+    comp_encs=compress(encs)
+    comp_evl = compress(eval_points)
+
+    del encs
+    del eval_points
     
     print 'Building model.'
     with nengo.Network() as net:
 
         def stim_func(t):
             if t<0.1:
-                return compress(img)
+                return comp_img
             else:
                 return zeros(D)
 
@@ -56,8 +60,8 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
         ipt = nengo.Node(stim_func)
         ens = nengo.Ensemble(N,
                              dimensions=D,
-                             encoders=compress(encs),
-                             eval_points=compress(eval_points),
+                             encoders=comp_encs,
+                             eval_points=comp_evl,
                              neuron_type=neuron_type)
 
         nengo.Connection(ipt, ens, synapse=None, transform=1)
@@ -72,17 +76,18 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
     print 'Connection RMSE: '+str(norm(sim.data[conn].solver_info['rmses']))
     print 'Recording connection error.'
     conn_rmse = norm(sim.data[conn].solver_info['rmses'])
-    print 'Recording connection weights.'
-    weights = dot(encs, sim.data[conn].decoders)
+    #print 'Recording connection weights.'
+    #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
-    rmses = array([rmse(img, j) for j in sim.data[probe]])
-
+    rmses = array([rmse(img, uncompress(j)) for j in sim.data[probe]])
+    print 'Error on the 100th frame: ' + str(rmses[98])
+    
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
-                (N, eval_points, img_path, w, h),
+                (N, img_path, w, h),
                 img,
                 conn_rmse,
                 uncompress(array([opt for opt in sim.data[probe]])),
                 rmses,
-                weights,
+                None,#weights,
                 dims)
