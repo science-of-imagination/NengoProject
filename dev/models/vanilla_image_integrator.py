@@ -63,5 +63,5 @@ def run(N, n_eval_pts, img_path, w, h, t=0.2):
                 conn_rmse,
                 array([opt for opt in sim.data[probe]]),
                 rmses,
-                weights,
+                None,
                 dims)
