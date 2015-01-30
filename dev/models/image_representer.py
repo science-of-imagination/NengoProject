@@ -16,7 +16,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.05):
     img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, dims[0]/float(2)))
+    encs = array(mk_bgbrs(N/2, dims, dims[0]/float(8)))
 
     print 'Initializing eval points.'
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
@@ -48,6 +48,7 @@ def run(N, n_eval_pts, img_path, w, h, t=0.05):
     sim.run(t)
     print 'Recording rmses per sample.'
     rmses = array([rmse(img, j) for j in sim.data[probe]])
+    print 'Error on last frame :'+str(rmses[49])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),

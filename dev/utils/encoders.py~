@@ -142,6 +142,7 @@ def mk_bgbrs(n_pairs,
     #determine sampling weights
     k= sqrt(2.0*log(2))*(2**phi+1)/(2**phi-1)
     alpha = k/(2*pi)
+    p=[]
     for i in range(octaves*N):
         p.append(1/(alpha*2**(2*(i/float(N))+4)))
     proportions = array(p)/norm(array(p))
@@ -176,8 +177,8 @@ def gbr_eval_pt(width):
                  psi=uniform(0, 2*pi),
                  sigma=uniform(0,1),
                  gamma=uniform(0,1),
-                 x_offset=uniform(0,1),
-                 y_offset=uniform(0,1))
+                 x_offset=uniform(-1,1),
+                 y_offset=uniform(-1,1))
 
 
 def mk_gbr_eval_pts(N, width):
@@ -193,7 +194,7 @@ def mk_gbr_eval_pts(N, width):
             except RuntimeWarning:
                 rng.append(rng[-1]+1)
                 print 'Warning Occured: (2)'
-    return eval_pts
+    return array(eval_pts)
 
 import random
 

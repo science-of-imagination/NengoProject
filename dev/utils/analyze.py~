@@ -7,7 +7,7 @@ if isinstance(queue, unicode):
     queue = queue.encode('ascii', 'replace').split()
 data = []
 for path in queue:
-    data.append(load_data(path).rmses)
+    data.append(load_data(path).rmses[99])
 plot(data)
 show()
  
