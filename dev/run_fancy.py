@@ -54,7 +54,7 @@ def run():
     #params2 = params[len(params)/2:]
     #split the running in 2, save data half way through
     while params:
-        thisParam = params.pop()
+        thisParam = params.pop(0)
         for data in run_model(args[0], thisParam):
             print 'Saving data.'
             save_data('/'.join([out_path, data.label+'/']), data)
