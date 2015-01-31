@@ -39,7 +39,7 @@ def run_model(model_name, params):
     
 
      
-    for i in range(len(params1)):
+    for i in range(len(params)):
         for p,data in gratings:
             img=data
             print 'Running model %d of %d.' % (i+1, runs)
@@ -54,7 +54,7 @@ def run():
     #params2 = params[len(params)/2:]
     #split the running in 2, save data half way through
     while params:
-        thisParam = params.pop(0)
+        thisParam = [params.pop(0)]
         for data in run_model(args[0], thisParam):
             print 'Saving data.'
             save_data('/'.join([out_path, data.label+'/']), data)
