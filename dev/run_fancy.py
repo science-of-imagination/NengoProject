@@ -37,8 +37,9 @@ def run_model(model_name, params):
     runs = len(params)
     gratings = load_data('./data/gratings.pkl')
     
+
      
-    for i in range(len(params)):
+    for i in range(len(params1)):
         for p,data in gratings:
             img=data
             print 'Running model %d of %d.' % (i+1, runs)
@@ -48,11 +49,17 @@ def run_model(model_name, params):
 
 def run():
     opts, args = getopt.getopt(sys.argv[1:],"l")
-    for data in run_model(args[0],
-                          load_params(param_file(args),
-                                      param_opt(opts))):
-        print 'Saving data.'
-        save_data('/'.join([out_path, data.label+'/']), data)
+    params = load_params(param_file(args),param_opt(opts))
+    #params1 = params[:len(params)/2]
+    #params2 = params[len(params)/2:]
+    #split the running in 2, save data half way through
+    while params:
+        thisParam = params.pop()
+        for data in run_model(args[0], thisParam):
+            print 'Saving data.'
+            save_data('/'.join([out_path, data.label+'/']), data)
+        
+
     print 'Model(s) ran successfully.'
     sys.exit()
 
