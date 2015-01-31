@@ -8,13 +8,14 @@ import os
 
 
 
-def run(N, img_path, w, h):
+def run(img,pee,N, n_eval_pts,  w, h):
 
     N, w, h = int(N), int(w), int(h)
     dims = (w, h)
-
-    print 'Loading image.'
-    img = load_img(img_path, dims)
+    img = img.flatten()
+    img = img/norm(img)
+    #print 'Loading image.'
+    #img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
     encs = array(mk_bgbrs(N/2, dims, dims[0]/float(2)))
@@ -29,10 +30,13 @@ def run(N, img_path, w, h):
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
-                (N, img_path, w, h),
+                (N, n_eval_pts , w, h),
                 img,
                 None,
                 [tsfmd],
                 rmses,
                 None,
-                dims)
+                dims,
+                pee)
+
+

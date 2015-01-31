@@ -8,6 +8,7 @@ from cfg import out_path
 from utils.collect import save_data
 import sys
 import getopt
+from data import load_data
 
 
 def load_params(name, opt=None):
@@ -34,6 +35,8 @@ def run_model(model_name, params):
     exec 'from models.%s import run' % model_name
     opts = []
     runs = len(params)
+    gratings = load_data('./data/gratings.pkl')
+    for x in 
     for i in range(len(params)):
         print 'Running model %d of %d.' % (i+1, runs)
         opts.append(run(*params[i]))

@@ -7,14 +7,14 @@ from numpy.linalg import norm
 import os
 
 
-def run(N, n_eval_pts, img_path, w, h, t=0.05):
+def run(img, pee, N, n_eval_pts, w, h, t=0.05):
 
     N, n_eval_pts, w, h, t = int(N), int(n_eval_pts), int(w), int(h), float(t)
     dims = (w, h)
 
     print 'Loading image.'
     #img = load_img(img_path, dims)
-    img = subtract(load_mini_mnist('train')[0], 1)
+    img = img.flatten()
     img = img/norm(img)
                               
     print 'Initializing encoders.'
@@ -54,10 +54,11 @@ def run(N, n_eval_pts, img_path, w, h, t=0.05):
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
-                (N, eval_points, img_path, w, h),
+                (N, eval_points,  w, h),
                 img,
                 None,
                 array([opt for opt in sim.data[probe]]),
                 rmses,
                 None,
-                dims)
+                dims,
+                pee)

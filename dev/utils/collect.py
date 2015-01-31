@@ -31,7 +31,7 @@ def rmse(tgt, opt):
 
 
 class Data:
-    def __init__(self, label, params, stimulus, conn_rmses, data, rmses, weights, dims):
+    def __init__(self, label, params, stimulus, conn_rmses, data, rmses, weights, dims,pee=None):
 
         self.label = label
         self.params = params
@@ -41,3 +41,4 @@ class Data:
         self.rmses = rmses
         self.weights = weights
         self.dims = dims
+        self.pee = None
