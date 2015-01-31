@@ -50,7 +50,9 @@ def run_model(model_name, params):
 def run():
     opts, args = getopt.getopt(sys.argv[1:],"l")
     params = load_params(param_file(args),param_opt(opts))
-    
+    #params1 = params[:len(params)/2]
+    #params2 = params[len(params)/2:]
+    #split the running in 2, save data half way through
     while params:
         thisParam = [params.pop(0)]
         for data in run_model(args[0], thisParam):

@@ -27,10 +27,10 @@ def run(img,pee,N, n_eval_pts,w, h, t=0.2):
     print 'Initializing SVD compression.'
     U, S, V = svds(encs.T, 600)
     S=flipud(S)
-    import pylab
-    pylab.plot(S)
-    pylab.show()
-    print where(S<S[0]*0.01)
+    #import pylab
+    #pylab.plot(S)
+    #pylab.show()
+    #print where(S<S[0]*0.01)
     D = where(S<S[0]*0.01)[0][0]
     print D
     basis = array(U[:,:D])
