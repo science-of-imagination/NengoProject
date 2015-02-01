@@ -35,8 +35,8 @@ def run_model(model_name, params):
     exec 'from models.%s import run' % model_name
     opts = []
     runs = len(params)
-    gratings = load_data('./data/gratings.pkl')
-    for x in 
+    #gratings = load_data('./data/gratings.pkl')
+ 
     for i in range(len(params)):
         print 'Running model %d of %d.' % (i+1, runs)
         opts.append(run(*params[i]))

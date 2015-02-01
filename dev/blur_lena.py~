@@ -1,0 +1,17 @@
+from scipy import ndimage
+import scipy
+import matplotlib.pyplot as plt
+from numpy import pi
+
+lena = scipy.misc.lena()
+
+
+blurred_lena = ndimage.gaussian_filter(lena, sigma=78)
+very_blurred = ndimage.gaussian_filter(lena, sigma=5)
+
+
+plt.imshow(blurred_lena,cmap='gray')
+
+plt.show()
+
+

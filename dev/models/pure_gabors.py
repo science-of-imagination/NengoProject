@@ -8,17 +8,18 @@ import os
 
 
 
-def run(img,pee,N, n_eval_pts,  w, h):
-
+def run(N, n_eval_pts,img_path,  w, h):
+    
     N, w, h = int(N), int(w), int(h)
     dims = (w, h)
-    img = img.flatten()
-    img = img/norm(img)
+    img = load_img(img_path, dims)
+    #img = img.flatten()
+    #img = img/norm(img)
     #print 'Loading image.'
     #img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, dims[0]/float(2)))
+    encs = array(mk_bgbrs(N/2, dims, 4))
     decs = pinv(encs)
     print decs.shape
     coeffs = dot(encs, img)
@@ -36,7 +37,6 @@ def run(img,pee,N, n_eval_pts,  w, h):
                 [tsfmd],
                 rmses,
                 None,
-                dims,
-                pee)
+                dims)
 
 

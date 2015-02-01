@@ -11,3 +11,5 @@
 16000 500 ./data/lena_512x512.png 56 56
 20000 500 ./data/lena_512x512.png 56 56
 25000 500 ./data/lena_512x512.png 79 79 
+8000 500 ./data/lena_512x512.png 56 56
+16000 500 ./data/lena_face.png 128 128

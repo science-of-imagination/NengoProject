@@ -5,6 +5,7 @@ import gzip as gz
 from cPickle import dump
 from time import strftime
 from numpy import mean, dot, subtract, sqrt
+from numpy.linalg import norm
     
 
 def compose_name(path, time, index, data):
@@ -29,6 +30,9 @@ def save_data(path, data):
 def rmse(tgt, opt):
     return sqrt(mean(dot(subtract(tgt, opt), subtract(tgt, opt))))
 
+def cos_simi(tgt, opt):
+    return dot(tgt, opt)/(norm(tgt)*norm(opt))
+   
 
 class Data:
     def __init__(self, label, params, stimulus, conn_rmses, data, rmses, weights, dims,pee=None):
@@ -41,4 +45,4 @@ class Data:
         self.rmses = rmses
         self.weights = weights
         self.dims = dims
-        self.pee = None
+        self.pee = pee

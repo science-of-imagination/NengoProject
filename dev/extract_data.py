@@ -14,11 +14,12 @@ for path in queue:
     print 'Reading file %d of %d' % (accu, le)
     data = load_data(path)
     dataz.append(data.rmses[98])
+    #print data.rmses[98]
     accu +=1
 
 with open('opt.txt', 'wb') as f:
     lines = ''
-    for k in range(5):
+    for k in range(2):
         for i in range(3):
             for j in range(7):
                 lines += str(dataz[k*21+i*7+j])+' '

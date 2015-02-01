@@ -9,6 +9,10 @@ from utils.collect import save_data
 import sys
 import getopt
 from data import load_data
+from numpy import array, ones, sqrt, subtract, dot, where, zeros, flipud
+from utils.encoders import mk_bgbrs, normalized_random_gabor_encoders, mk_gbr_eval_pts
+from scipy.sparse.linalg import svds
+from scipy.sparse import csc_matrix
 
 
 def load_params(name, opt=None):
@@ -46,14 +50,43 @@ def run_model(model_name, params):
             opts.append(run(img,p,*params[i]))
     return opts
 
-
+def compress(original,basis):
+            return dot(original, basis)
 def run():
     opts, args = getopt.getopt(sys.argv[1:],"l")
     params = load_params(param_file(args),param_opt(opts))
     
     while params:
         thisParam = [params.pop(0)]
-        for data in run_model(args[0], thisParam):
+        N, n_eval_pts, w, h  = int(thisParam[0][0]), int(thisParam[0][1]), int(thisParam[0][2]), int(thisParam[0][3])
+        dims = (w,h)
+        print "Initializing encoders"
+        encs = array(mk_bgbrs(N/2, dims, 4))
+        print 'Initializing eval points.'
+        eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
+
+        print 'Initializing SVD compression.'
+        U, S, V = svds(encs.T, 600)
+        S=flipud(S)
+        #import pylab
+        #pylab.plot(S)
+        #pylab.show()
+        #print where(S<S[0]*0.01)
+        D = where(S<S[0]*0.01)[0][0]
+        print D
+        basis = array(U[:,:D])
+        
+        
+       
+        print 'Compressing input data.'
+        comp_encs=compress(encs,basis)
+        comp_evl = compress(eval_points,basis)
+        del encs
+        del eval_points        
+        
+        newParams = [[comp_encs,comp_evl,basis,D] + thisParam[0]]
+        
+        for data in run_model(args[0], newParams):
             print 'Saving data.'
             save_data('/'.join([out_path, data.label+'/']), data)
         
