@@ -32,7 +32,7 @@ def run(img,pee,N, n_eval_pts,w, h, t=0.2):
     #print where(S<S[0]*0.01)
     D = where(S<S[0]*0.01)[0][0]
     print D
-    basis = array(U[:,:D])
+    basis = array(U[:,-D:])
     
     def compress(original):
         return dot(original, basis)

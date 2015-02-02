@@ -34,16 +34,16 @@ def param_file(args):
 def run_model(model_name, params):
     exec 'from models.%s import run' % model_name
     opts = []
-    runs = len(params)
     gratings = load_data('./data/gratings.pkl')
-    
-
-     
-    for i in range(len(params1)):
+    runs = len(gratings)
+    for i in range(len(params)):
+        ruwn = 0
         for p,data in gratings:
             img=data
-            print 'Running model %d of %d.' % (i+1, runs)
-            opts.append(run(img,p,*params[i]))
+            #print params
+            print 'Stimulus %d of %d.' % (ruwn+1, runs)
+            opts.append(run(img,p,*params))
+            ruwn +=1
     return opts
 
 
@@ -53,8 +53,12 @@ def run():
     #params1 = params[:len(params)/2]
     #params2 = params[len(params)/2:]
     #split the running in 2, save data half way through
+    moedels =len(params)
+    moedel = 0
     while params:
         thisParam = params.pop()
+        print 'Running model %d of %d' % (moedel+1, moedels)
+        moedel +=1
         for data in run_model(args[0], thisParam):
             print 'Saving data.'
             save_data('/'.join([out_path, data.label+'/']), data)

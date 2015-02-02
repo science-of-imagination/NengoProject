@@ -24,7 +24,7 @@ def run(img,pee,N, n_eval_pts,w, h, t=0.2):
     eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
 
     print 'Initializing SVD compression.'
-    U, S, V = svds(encs.T, len(img)-1)
+    U, S, V = svds(encs.T, 600)
     S=flipud(S)
     #import pylab
     #pylab.plot(S)
@@ -32,7 +32,7 @@ def run(img,pee,N, n_eval_pts,w, h, t=0.2):
     #print where(S<S[0]*0.01)
     D = where(S<S[0]*0.01)[0][0]
     print D
-    basis = array(U[:,:D])
+    basis = array(U[:,-D:])
     
     def compress(original):
         return dot(original, basis)

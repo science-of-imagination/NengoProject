@@ -1,12 +1,2 @@
-1000 500 ./data/lena_512x512.png 28 28
-4000 500 ./data/lena_512x512.png 28 28
-8000 500 ./data/lena_512x512.png 28 28
-12000 500 ./data/lena_512x512.png 28 28
-16000 500 ./data/lena_512x512.png 28 28
-20000 500 ./data/lena_512x512.png 28 28
-1000 500 ./data/lena_512x512.png 56 56
-4000 500 ./data/lena_512x512.png 56 56
-8000 500 ./data/lena_512x512.png 56 56
-12000 500 ./data/lena_512x512.png 56 56
-16000 500 ./data/lena_512x512.png 56 56
-30000 500 ./data/lena_512x512.png 50 50
+32000 500 78 78
+64000 500 78 78

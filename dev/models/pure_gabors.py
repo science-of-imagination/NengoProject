@@ -18,7 +18,7 @@ def run(img,pee,N, n_eval_pts,  w, h):
     #img = load_img(img_path, dims)
                               
     print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, dims[0]/float(2)))
+    encs = array(mk_bgbrs(N/2, dims, 4))
     decs = pinv(encs)
     print decs.shape
     coeffs = dot(encs, img)

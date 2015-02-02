@@ -8,6 +8,7 @@ from cfg import out_path
 from utils.collect import save_data
 import sys
 import getopt
+from data import load_data
 
 
 def load_params(name, opt=None):
