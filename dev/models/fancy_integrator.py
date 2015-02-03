@@ -18,11 +18,7 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
     #img = img/norm(img)
     img = img.flatten()
     img = img/norm(img)                              
-    print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, 4))
 
-    print 'Initializing eval points.'
-    eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
     
     print 'Building model.'
     with nengo.Network() as net:

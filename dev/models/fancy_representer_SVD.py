@@ -7,7 +7,7 @@ from numpy.linalg import norm
 import os
 
 
-def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
+def run(img,pee,comp_encs,comp_decs,basis,D,N, n_eval_pts,  w, h, t=0.2):
 
     N, n_eval_pts, w, h, t = int(N), int(n_eval_pts), int(w), int(h), float(t)
     dims = (w, h)
@@ -18,11 +18,7 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
     #img = img/norm(img)
     img = img.flatten()
     img = img/norm(img)                              
-    print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, 4))
 
-    print 'Initializing eval points.'
-    eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
     
     print 'Building model.'
     with nengo.Network() as net:
@@ -37,13 +33,13 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
 
         ipt = nengo.Node(stim_func)
         ens = nengo.Ensemble(N,
-                             dimensions=len(img),
-                             encoders=encs,
-                             eval_points=eval_points,
+                             dimensions=D,
+                             encoders=comp_encs,
+                             eval_points=comp_evl,
                              neuron_type=neuron_type)
 
         nengo.Connection(ipt, ens, synapse=None, transform=1)
-        conn = nengo.Connection(ens, ens, synapse=0.1)
+        conn = nengo.Connection(ens, ens, synapse=1)
 
         probe = nengo.Probe(ens, attr='decoded_output',
                             synapse=0.01)
@@ -57,16 +53,15 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
     #print 'Recording connection weights.'
     #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
-    rmses = array([rmse(img, j) for j in sim.data[probe]])
-    print 'Error on the 100th frame: ' + str(rmses[98])
+    rmses = array([rmse(img, uncompress(j)) for j in sim.data[probe]])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
-                (N, eval_points, w, h),
+                (N, n_eval_pts, w, h),
                 img,
                 conn_rmse,
-                array([opt for opt in sim.data[probe]]),
+                uncompress(array([opt for opt in sim.data[probe]])),
                 rmses,
-                None,
+                None,#weights,
                 dims,
                 pee)

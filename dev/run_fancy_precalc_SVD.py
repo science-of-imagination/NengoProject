@@ -50,6 +50,11 @@ def run_model(model_name, params):
         ruwn +=1
     return opts
 
+def compress(original,basis):
+    return dot(original, basis)
+
+def uncompress(compressed):
+    return dot(basis, compressed.T).T
 
 def run():
     opts, args = getopt.getopt(sys.argv[1:],"l")
@@ -68,8 +73,25 @@ def run():
         encs = array(mk_bgbrs(N/2, dims, 4))
         print 'Initializing eval points.'
         eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
+
+        print 'Initializing SVD compression.'
+        U, S, V = svds(encs.T, 600)
+        S=flipud(S)
+        #import pylab
+        #pylab.plot(S)
+        #pylab.show()
+        #print where(S<S[0]*0.01)
+        D = where(S<S[0]*0.01)[0][0]
+        print D
+        basis = array(U[:,-D:])
+
+        comp_encs = compress(encs)
+        comp_decs = compress(eval_points)
+        del encs
+        del decs
+
         
-        newParams = [encs,decs] + thisParam[0]
+        newParams = [comp_encs,comp_decs,basis,D] + thisParam[0]
         
         print 'Running model %d of %d' % (count, num_params)
         

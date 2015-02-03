@@ -38,16 +38,16 @@ def run_model(model_name, params):
     opts = []
     gratings = load_data('./data/gratings.pkl')
     runs = len(gratings)
-    print params, "PARAAMAMAMDMAFMADFAD"
-    return 0
-    for i in range(len(params)):
-        ruwn = 0
-        for p,data in gratings:
-            img=data
-            #print params
-            print 'Stimulus %d of %d.' % (ruwn+1, runs)
-            opts.append(run(img,p,*params))
-            ruwn +=1
+    #print params, "PARAAMAMAMDMAFMADFAD"
+    #return 0
+    
+    ruwn = 0
+    for p,data in gratings:
+        img=data
+        #print params
+        print 'Stimulus %d of %d.' % (ruwn+1, runs)
+        opts.append(run(img,p,*params))
+        ruwn +=1
     return opts
 
 
@@ -66,8 +66,8 @@ def run():
                 
         print ' Initializing encoders.'
         encs = array(mk_bgbrs(N/2, dims, 4))
-        print ' Inverting encoder matrix.'
-        decs = pinv(encs,rcond=0.01)
+        print 'Initializing eval points.'
+        eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
         
         newParams = [encs,decs] + thisParam[0]
         
