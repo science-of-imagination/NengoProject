@@ -7,7 +7,7 @@ from numpy.linalg import norm
 import os
 
 
-def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
+def run(img,pee,encs,eval_points,N, n_eval_pts,  w, h, t=0.2):
 
     N, n_eval_pts, w, h, t = int(N), int(n_eval_pts), int(w), int(h), float(t)
     dims = (w, h)
@@ -18,11 +18,7 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
     #img = img/norm(img)
     img = img.flatten()
     img = img/norm(img)                              
-    print 'Initializing encoders.'
-    encs = array(mk_bgbrs(N/2, dims, 4))
 
-    print 'Initializing eval points.'
-    eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
     
     print 'Building model.'
     with nengo.Network() as net:
@@ -58,7 +54,7 @@ def run(img,pee,encs,decs,N, n_eval_pts,  w, h, t=0.2):
     #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
     rmses = array([rmse(img, j) for j in sim.data[probe]])
-    print 'Error on the 100th frame: ' + str(rmses[98])
+    print 'Error on the 50th frame: ' + str(rmses[49])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
