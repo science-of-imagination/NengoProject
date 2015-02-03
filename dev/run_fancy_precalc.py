@@ -69,7 +69,7 @@ def run():
         print 'Initializing eval points.'
         eval_points = mk_gbr_eval_pts(n_eval_pts, dims[0])
         
-        newParams = [encs,decs] + thisParam[0]
+        newParams = [encs,eval_points] + thisParam[0]
         
         print 'Running model %d of %d' % (count, num_params)
         
