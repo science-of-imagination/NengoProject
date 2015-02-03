@@ -25,7 +25,7 @@ def run(img, pee, N, n_eval_pts,  w, h):
     print str(now()) + ' Initializing encoders.'
     encs = array(mk_bgbrs(N/2, dims, 4))
     print str(now()) + ' Inverting encoder matrix.'
-    decs = pinv(encs)
+    decs = pinv(encs, rcond=0.01)
     #print decs.shape
     print str(now()) + ' Encoding image.'
     coeffs = dot(encs, img)

@@ -36,14 +36,14 @@ def run_model(model_name, params):
     opts = []
     gratings = load_data('./data/gratings.pkl')
     runs = len(gratings)
-    for i in range(len(params)):
-        ruwn = 0
-        for p,data in gratings:
-            img=data
-            #print params
-            print 'Stimulus %d of %d.' % (ruwn+1, runs)
-            opts.append(run(img,p,*params))
-            ruwn +=1
+    #for i in range(len(params)):
+    ruwn = 0
+    for p,data in gratings:
+        img=data
+        #print params
+        print 'Stimulus %d of %d.' % (ruwn+1, runs)
+        opts.append(run(img,p,*params))
+        ruwn +=1
     return opts
 
 

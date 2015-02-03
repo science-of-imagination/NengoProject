@@ -57,7 +57,7 @@ def run():
     moedel = 0
     while params:
         thisParam = params.pop()
-        print 'Running model %d of %d' (moedel+1, moedels)
+        print 'Running model %d of %d' % (moedel+1, moedels)
         moedel +=1
         for data in run_model(args[0], thisParam):
             print 'Saving data.'
