@@ -85,7 +85,7 @@ with open('opt.txt', 'wb') as f:
     #f.write(lines)
 
     for i in CIs:
-        lines += ' '.join(str(i[0]),str(i[1]),str(i[2])) + '\n'
+        lines += ' '.join([str(i[0]),str(i[1]),str(i[2])]) + '\n'
     f.write(lines)
 
 
