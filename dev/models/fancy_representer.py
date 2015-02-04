@@ -7,7 +7,7 @@ from numpy.linalg import norm
 import os
 
 
-def run(img,pee,encs,eval_points,N, n_eval_pts,  w, h, t=0.2):
+def run(img,pee,encs,eval_points,N, n_eval_pts,  w, h, t=0.5):
 
     N, n_eval_pts, w, h, t = int(N), int(n_eval_pts), int(w), int(h), float(t)
     dims = (w, h)
@@ -47,14 +47,14 @@ def run(img,pee,encs,eval_points,N, n_eval_pts,  w, h, t=0.2):
     print 'Running simulation.'
     sim = nengo.Simulator(net)
     sim.run(t)
-    print 'Connection RMSE: '+str(norm(sim.data[conn].solver_info['rmses']))
-    print 'Recording connection error.'
-    conn_rmse = norm(sim.data[conn].solver_info['rmses'])
+    #print 'Connection RMSE: '+str(norm(sim.data[conn].solver_info['rmses']))
+    #print 'Recording connection error.'
+    #conn_rmse = norm(sim.data[conn].solver_info['rmses'])
     #print 'Recording connection weights.'
     #weights = dot(encs, sim.data[conn].decoders)
     print 'Recording rmses per sample.'
     rmses = array([rmse(img, j) for j in sim.data[probe]])
-    print 'Error on the 50th frame: ' + str(rmses[49])
+    print 'Error on the 100th frame: ' + str(rmses[49])
 
     print 'Simulation finished.'
     return Data(os.path.basename(__file__).strip('.py').strip('.pyc'),
